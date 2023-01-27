@@ -17,10 +17,8 @@ public slots:
     void login(const QString &userName);
     void disconnectFromHost();
 
-
     void sendJsonObject(const QJsonObject& message);
     void resourceRequest(qint32 idx, qint64 lifeTimeSeconds);
-
 
 private slots:
     void onReadyRead();
