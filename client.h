@@ -18,7 +18,8 @@ public slots:
     void disconnectFromHost();
 
     void sendJsonObject(const QJsonObject& message);
-    void resourceRequest(qint32 idx, qint64 lifeTimeSeconds);
+    void resourceRequest(qint32 mask, qint64 lifeTimeSeconds);
+
 
 private slots:
     void onReadyRead();

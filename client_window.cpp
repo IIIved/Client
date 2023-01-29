@@ -37,9 +37,9 @@ ClientWindow::~ClientWindow()
 
 void ClientWindow::resourceRequest()
 {
-    ui->resourceRequestButton->setEnabled(true);
+        ui->resourceRequestButton->setEnabled(true);
 
-    auto dialog = QDialog(this);
+        auto dialog = QDialog(this);
         QFormLayout form(&dialog);
 
         QSpinBox *timeInput = new QSpinBox( &dialog);
@@ -56,6 +56,7 @@ void ClientWindow::resourceRequest()
         checkboxes[1] = new QCheckBox(&dialog);
         checkboxes[2] = new QCheckBox(&dialog);
         checkboxes[3] = new QCheckBox(&dialog);
+
         resourcesBox->addWidget(checkboxes[0], 0, 0);
         resourcesBox->addWidget(checkboxes[1], 0, 1);
         resourcesBox->addWidget(checkboxes[2], 0, 2);
@@ -79,12 +80,22 @@ void ClientWindow::resourceRequest()
 
         dialog.exec();
 
+        QByteArray array;
+        array.resize(4);
+
         for(int i = 0; i < 4; i++){
-            if(checkboxes[i]->isChecked()){
-                m_client->resourceRequest(i+1,timeInput->cleanText().toInt());
-            }
+            array[i] = checkboxes[i]->isChecked();
         }
+
+        qint32 mask = 0;
+        memcpy(&mask, array, sizeof(qint32));
+
+        m_client->resourceRequest(mask,timeInput->cleanText().toInt());
+
+
 }
+
+
 
 void ClientWindow::attemptConnection()
 {

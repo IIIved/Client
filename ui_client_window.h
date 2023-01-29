@@ -51,6 +51,7 @@ public:
 
         gridLayout->addWidget(connectButton, 0, 0, 1, 2);
 
+
         retranslateUi(ClientWindow);
 
         QMetaObject::connectSlotsByName(ClientWindow);
@@ -62,6 +63,7 @@ public:
         resourceRequestButton->setText(QCoreApplication::translate("ClientWindow", "ResourceRequest", nullptr));
         connectButton->setText(QCoreApplication::translate("ClientWindow", "Connect", nullptr));
     } // retranslateUi
+
 };
 
 namespace Ui {

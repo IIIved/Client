@@ -6,6 +6,11 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QCheckBox>
+#include <QStandardItemModel>
+#include <QInputDialog>
+#include <QMessageBox>
+#include <QHostAddress>
 
 ResurcerClient::ResurcerClient(QObject *parent)
     : QObject(parent)
@@ -35,21 +40,17 @@ void ResurcerClient::login(const QString &userName)
     }
 }
 
+void ResurcerClient::resourceRequest(qint32 mask, qint64 lifeTimeSeconds) {
 
-void ResurcerClient::resourceRequest(qint32 idx, qint64 lifeTimeSeconds) {
-
-    Q_ASSERT(idx);
-
-    const quint32 mask = 1 << (idx - 1);
+    Q_ASSERT(mask);
 
     QJsonObject message;
     message[QStringLiteral("type")] = QStringLiteral("request");
-    message[QStringLiteral("request")] = QString::number(mask);
+    message[QStringLiteral("request")] = mask;
     message[QStringLiteral("time")] = QString::number(lifeTimeSeconds);
 
     sendJsonObject(message);
 }
-
 
 void ResurcerClient::sendJsonObject(const QJsonObject& message) {
 
@@ -98,6 +99,7 @@ void ResurcerClient::onReadyRead()
     QByteArray jsonData;
     QDataStream socketStream(m_clientSocket);
     socketStream.setVersion(QDataStream::Qt_5_7);
+
     for (;;) {
         socketStream.startTransaction();
         socketStream >> jsonData;
